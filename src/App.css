@@ -1,42 +1,177 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
+/* App.css */
+
+/* 1. Full-screen flex centering */
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8f9fa, #cfdef3);
+  transition: background 0.5s ease-in-out, color 0.3s;
+  flex-direction: column;
+}
+
+body.normal {
+  background: linear-gradient(135deg, #e0eafc, #cfdef3);
+  color: #222; /* dark text on light bg */
+}
+
+body.extra {
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  color: #ffffff; /* light text on dark bg */
+}
+
+body.shakespearean {
+  background: linear-gradient(135deg, #4b134f, #c94b4b);
+  color: #fff0f5;
+}
+
+body.rizz {
+  background: linear-gradient(135deg, #ff5f6d, #ffc371);
+  color: #2b0000; /* deeper romantic shade */
+}
+
+body.dark {
+  background: #121212;
+  color: white;
+}
+
+/* 2. Container sizing */
+.container {
+  width: 100%;
+  max-width: 600px;
   padding: 2rem;
+  box-sizing: border-box;
   text-align: center;
+  animation: fadeInContainer 1s ease-in-out;
+  
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+@keyframes fadeInContainer {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+
+
+/* 3. Heading styling */
+h1 {
+  font-family: "Lobster", cursive;
+  font-size: 3rem;
+  margin-bottom: 1.2rem;
+  color: inherit;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+/* 4. Input and dropdown styling */
+input[type="text"], select {
+  padding: 0.7rem;
+  width: 90%;
+  max-width: 400px;
+  margin: 0.5rem auto;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  display: block;
+}
+
+/* 5. Intensity styling */
+.intensity {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.intensity label {
+  cursor: pointer;
+}
+
+/* 6. Buttons */
+button {
+  background-color: #ff4d6d;
+  border: none;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  margin: 0.5rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05);
+  background-color: #ff3366;
+}
+
+/* 7. Compliment styling */
+.compliment {
+  font-size: 1.6rem;
+  margin-top: 1.5rem;
+  font-weight: bold;
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.gif {
+  font-size: 2.2rem;
+  margin-top: 1rem;
+}
+
+.streak {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* 8. Replay + Stop buttons */
+.audio-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.audio-controls button {
+  background-color: #6c5ce7;
+}
+
+.audio-controls button:hover {
+  background-color: #4834d4;
+}
+
+/* 9. Emoji burst */
+.emoji-burst {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  font-size: 2rem;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  animation: pop 0.6s ease-out;
+}
+
+@keyframes pop {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
   }
-  to {
-    transform: rotate(360deg);
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
   }
 }
+/* MODE-BASED TEXT COLORS */
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
 
-.card {
-  padding: 2em;
-}
 
-.read-the-docs {
-  color: #888;
-}
