@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import confetti from "canvas-confetti";
 
+// ✅ Import your visual effect components
+import BlobWave from "./components/BlobWave";
+import FloatingParticles from "./components/FloatingParticles";
+
 const compliments = {
   normal: [
     "You're doing great, NAME!",
@@ -27,7 +31,6 @@ const compliments = {
   ],
 };
 
-
 function App() {
   const [name, setName] = useState("");
   const [intensity, setIntensity] = useState("normal");
@@ -37,7 +40,6 @@ function App() {
   const [voices, setVoices] = useState([]);
   const [selectedVoice, setSelectedVoice] = useState("");
   const [isMuted, setIsMuted] = useState(false);
-
 
   useEffect(() => {
     const loadVoices = () => {
@@ -59,35 +61,44 @@ function App() {
     setCompliment(personalized);
     setStreak((prev) => prev + 1);
     speakCompliment(personalized);
-  
+
     const emojis = ["🌟", "💥", "✨", "🔥", "💫", "🥳"];
     setGif(emojis[Math.floor(Math.random() * emojis.length)]);
-  
+
     // Remove all mode classes
     document.body.classList.remove("normal", "extra", "shakespearean", "rizz");
-    document.body.classList.add(intensity); // Set mode-based background
-  
+    document.body.classList.add(intensity);
+
+    // Change animation speed based on mode
+    if (intensity === "rizz") {
+      document.body.style.animationDuration = "6s";
+    } else if (intensity === "shakespearean") {
+      document.body.style.animationDuration = "12s";
+    } else {
+      document.body.style.animationDuration = "10s";
+    }
+
     triggerConfetti();
     triggerEmojiBurst();
   };
 
   const speakCompliment = (text) => {
-    if (isMuted) return; // Don't speak if muted
-  
+    if (isMuted) return;
+
     const utterance = new SpeechSynthesisUtterance(text);
     const voiceObj = voices.find((v) => v.name === selectedVoice);
     if (voiceObj) {
       utterance.voice = voiceObj;
     }
-  
+
     utterance.pitch = 1.1;
     utterance.rate = 1.1;
     utterance.volume = 1;
-  
+
     speechSynthesis.cancel();
     speechSynthesis.speak(utterance);
   };
-  
+
   const triggerConfetti = () => {
     confetti({
       particleCount: 100,
@@ -101,7 +112,7 @@ function App() {
     const emojis = ["🎉", "💖", "✨", "🌈", "🦄"];
     el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
     el.style.animation = "none";
-    el.offsetHeight; // Trigger reflow
+    el.offsetHeight;
     el.style.animation = null;
   };
 
@@ -110,81 +121,89 @@ function App() {
   };
 
   return (
-    <div className="container">
-      <h1>Flatter Me 💖</h1>
-      <input
-        type="text"
-        placeholder="Enter your name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
+    <>
+      {/* 🌪️ Blob Wave for Shakespearean */}
+      {intensity === "shakespearean" && <BlobWave />}
 
-      <div className="intensity">
-        <label>
-          <input
-            type="radio"
-            value="normal"
-            checked={intensity === "normal"}
-            onChange={() => setIntensity("normal")}
-          />{" "}
-          Normal
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="extra"
-            checked={intensity === "extra"}
-            onChange={() => setIntensity("extra")}
-          />{" "}
-          Over-the-Top
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="shakespearean"
-            checked={intensity === "shakespearean"}
-            onChange={() => setIntensity("shakespearean")}
-          />{" "}
-          Shakespearean
-        </label>
-        <label>
-  <input
-    type="radio"
-    value="rizz"
-    checked={intensity === "rizz"}
-    onChange={() => setIntensity("rizz")}
-  />{" "}
-  Ultimate Rizz 💘
-</label>
+      {/* ✨ Floating Sparkles for Extra */}
+      {intensity === "extra" && <FloatingParticles />}
 
+      <div className="container">
+        <h1>Flatter Me</h1>
+        <input
+          type="text"
+          placeholder="Enter your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+
+        <div className="intensity">
+          <label>
+            <input
+              type="radio"
+              value="normal"
+              checked={intensity === "normal"}
+              onChange={() => setIntensity("normal")}
+            />{" "}
+            Normal
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="extra"
+              checked={intensity === "extra"}
+              onChange={() => setIntensity("extra")}
+            />{" "}
+            Over-the-Top
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="shakespearean"
+              checked={intensity === "shakespearean"}
+              onChange={() => setIntensity("shakespearean")}
+            />{" "}
+            Shakespearean
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="rizz"
+              checked={intensity === "rizz"}
+              onChange={() => setIntensity("rizz")}
+            />{" "}
+            Ultimate Rizz 💘
+          </label>
+        </div>
+
+        <select
+          onChange={(e) => setSelectedVoice(e.target.value)}
+          value={selectedVoice}
+        >
+          {voices.map((voice, index) => (
+            <option key={index} value={voice.name}>
+              {voice.name} ({voice.lang})
+            </option>
+          ))}
+        </select>
+
+        <button onClick={generateCompliment}>Give me a compliment!</button>
+        <p className="compliment">{compliment}</p>
+        <p className="gif">{gif}</p>
+        <p className="streak">Streak: {streak}</p>
+
+        <div className="audio-controls">
+          <button onClick={() => speakCompliment(compliment)}>Replay 🔁</button>
+          <button onClick={() => speechSynthesis.cancel()}>Stop ⏹</button>
+          <button onClick={() => setIsMuted(!isMuted)}>
+            {isMuted ? "Unmute 🔊" : "Mute 🔇"}
+          </button>
+        </div>
+
+        <button onClick={toggleDark}>Toggle Dark Mode</button>
+        <div id="emojiBurst" className="emoji-burst"></div>
       </div>
-
-      <select onChange={(e) => setSelectedVoice(e.target.value)} value={selectedVoice}>
-        {voices.map((voice, index) => (
-          <option key={index} value={voice.name}>
-            {voice.name} ({voice.lang})
-          </option>
-        ))}
-      </select>
-
-      <button onClick={generateCompliment}>Give me a compliment!</button>
-      <p className="compliment">{compliment}</p>
-      <p className="gif">{gif}</p>
-      <p className="streak">Streak: {streak}</p>
-
-      <div className="audio-controls">
-  <button onClick={() => speakCompliment(compliment)}>Replay 🔁</button>
-  <button onClick={() => speechSynthesis.cancel()}>Stop ⏹</button>
-  <button onClick={() => setIsMuted(!isMuted)}>
-    {isMuted ? "Unmute 🔊" : "Mute 🔇"}
-  </button>
-</div>
-
-
-      <button onClick={toggleDark}>Toggle Dark Mode</button>
-
-      <div id="emojiBurst" className="emoji-burst"></div>
-    </div>
+    </>
   );
 }
 

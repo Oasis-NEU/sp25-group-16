@@ -7,47 +7,82 @@ body {
   min-height: 100vh;
   font-family: "Poppins", sans-serif;
   display: flex;
-  align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f8f9fa, #cfdef3);
-  transition: background 0.5s ease-in-out, color 0.3s;
+  align-items: center;
   flex-direction: column;
+  transition: color 0.3s ease-in-out;
+  animation: flowy 15s ease infinite;
+  background-size: 600% 600%;
 }
+
 
 body.normal {
-  background: linear-gradient(135deg, #e0eafc, #cfdef3);
-  color: #222; /* dark text on light bg */
-}
-
-body.extra {
-  background: linear-gradient(135deg, #00c6ff, #0072ff);
-  color: #ffffff; /* light text on dark bg */
+  background: linear-gradient(-45deg, #e0eafc, #cfdef3, #ffffff, #dbeafe);
+  color: #222;
 }
 
 body.shakespearean {
-  background: linear-gradient(135deg, #4b134f, #c94b4b);
+  background: radial-gradient(circle at top left, #4b134f, #c94b4b, #6e0d25, #d13e60);
+  background-size: 500% 500%;
+  animation: flowy 18s ease-in-out infinite;
   color: #fff0f5;
 }
 
-body.rizz {
-  background: linear-gradient(135deg, #ff5f6d, #ffc371);
-  color: #2b0000; /* deeper romantic shade */
-}
-
-body.dark {
-  background: #121212;
+body.extra {
+  background: linear-gradient(-45deg, #00c6ff, #0072ff, #0044ff, #0099ff);
+  background-size: 600% 600%;
+  animation: flowy 12s ease infinite;
   color: white;
 }
 
+
+body.rizz {
+  background: radial-gradient(circle at center, #ff5f6d, #ff758c, #ffc371, #ff6ec4);
+  background-size: 300% 300%;
+  animation: flowy 20s ease infinite;
+  color: white;
+}
+
+
+
+body.dark {
+  background: linear-gradient(-45deg, #000000, #1a1a1a, #2c2c2c, #000000);
+  color: white;
+}
+.emoji-burst {
+  animation: pop 0.6s ease-out, pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+  from { transform: scale(1); opacity: 0.9; }
+  to { transform: scale(1.3); opacity: 1; }
+}
+@keyframes moveGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes flowy {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 50% 100%; }
+  50% { background-position: 100% 50%; }
+  75% { background-position: 50% 0%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+
 /* 2. Container sizing */
 .container {
-  width: 100%;
   max-width: 600px;
+  width: 100%;
   padding: 2rem;
-  box-sizing: border-box;
+  z-index: 1;
+  position: relative;
   text-align: center;
-  animation: fadeInContainer 1s ease-in-out;
-  
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes fadeInContainer {
@@ -59,8 +94,8 @@ body.dark {
 
 /* 3. Heading styling */
 h1 {
-  font-family: "Lobster", cursive;
-  font-size: 3rem;
+  font-family: 'Chicle', cursive;
+  font-size: 6.2rem;
   margin-bottom: 1.2rem;
   color: inherit;
   animation: glow 2s ease-in-out infinite alternate;
@@ -171,7 +206,26 @@ button:hover {
     opacity: 0;
   }
 }
-/* MODE-BASED TEXT COLORS */
+.blob-bg {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40vh;
+  z-index: -1;
+  animation: blobWave 15s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes blobWave {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-20px); }
+}
+
+
+
+
+
 
 
 
